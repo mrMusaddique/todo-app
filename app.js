@@ -46,10 +46,39 @@ function addTask() {
         }
     });
 
+    // A div for right side all buttons 
+    let actions = document.createElement("div")
+    actions.classList.add("actions")
+
+
     // Task text
     let text = document.createElement("span");
     text.innerText = input.value.trim();
     text.classList.add("task-text");
+
+    // Edite Button 
+    let edieBtn = document.createElement('button')
+    edieBtn.innerHTML = '<i class="ri-pencil-fill"></i>';
+    edieBtn.classList.add("editeBtn")
+    actions.appendChild(edieBtn);
+
+
+    edieBtn.addEventListener("click", function () {
+        let editInp = document.createElement("input")
+        editInp.classList.add("editInp")
+        text.replaceWith(editInp)
+        editInp.value = text.innerText
+        editInp.focus()
+
+        editInp.addEventListener("keydown", function (e) {
+            if (e.key === "Enter") {
+                text.innerText = editInp.value
+                editInp.replaceWith(text)
+            }
+        })
+
+
+    })
 
     // Delete button
     let delBtn = document.createElement("button");
@@ -57,13 +86,16 @@ function addTask() {
     delBtn.innerHTML = '<i class="ri-close-large-fill"></i>';
     delBtn.classList.add("delBtn");
 
+
     // Checkbox + text -> leftSide
     leftSide.appendChild(checkbox);
     leftSide.appendChild(text);
 
     // leftSide + delete button -> task
     task.appendChild(leftSide);
-    task.appendChild(delBtn);
+    task.appendChild(actions)
+    actions.appendChild(edieBtn)
+    actions.appendChild(delBtn)
 
     // task -> taskBox
     taskBox.appendChild(task);
